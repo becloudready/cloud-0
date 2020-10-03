@@ -72,3 +72,9 @@ fabric.properties
 
 /venv
 aws_credentials.py
+test.py
+/idea
+/config
+python-3.7.9.exe
+/__pycache__
+/.idea
