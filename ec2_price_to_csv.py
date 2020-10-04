@@ -1,6 +1,6 @@
 import json
 import boto3
-import aws_credentials as aws_creds
+# import aws_credentials as aws_creds
 from pkg_resources import resource_filename
 import pprint
 from datetime import datetime
