@@ -2,7 +2,7 @@ import boto3
 import botocore
 # import paramiko
 import time
-import aws_credentials
+# import aws_credentials
 
 def menu():
     region_name = "default"
