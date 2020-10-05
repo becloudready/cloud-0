@@ -1,5 +1,5 @@
 import boto3
-import pprint
+
 
 def test_found():
     """Testing if main.py can import this module."""
@@ -8,21 +8,28 @@ def test_found():
 
 class Pricer():
 
+    # TODO: add ability to
+    #  1) ask client if their needs align with on-demand, spot, or reserved
+    #  2) convert client needs in terms of compute (and others) into server type (on AWS, Azure, GCP)
+    #  3) get prices for each cloud provider and compare them
+
     api = 'ec2'
     region_name = 'us-east-1'
     instance_type = 't2.micro'
-
-    client = boto3.client(api, region_name=region_name)
-
-    # TODO: determine if I should use this to initialize client or should it be hard coded
-    def connect(self):
-        """Create connection to API and return client"""
-        self.client = boto3.client(self.api, region_name=self.region_name)
+    client = ''
 
     def __init__(self, api='ec2', region_name='us-east-1', instance_type='t2.micro'):
+        """
+        Create new instance with default values:
+        api = 'ec2'
+        region_name = 'us-east-1'
+        instance_type = 't2.micro
+        """
+
         self.api = api
         self.region_name = region_name
         self.instance_type = instance_type
+        self.client = boto3.client(api, region_name=region_name)
 
     def get_spot_prices(self):
         """Return raw data on spot prices. To be processed by get_best_spot_price"""
@@ -47,23 +54,28 @@ class Pricer():
         for result in prices_response['SpotPriceHistory']:
             price = result['SpotPrice']
             AZ = result['AvailabilityZone']
-            # TODO: make this logic better:
-            #  want to keep adding zones without overriding the most recent prices
+            # TODO: make this logic better: want to keep adding zones without overriding the most recent prices
             if not AZ in AZ_price_dict.keys():
                 AZ_price_dict[AZ] = price
 
         return AZ_price_dict
 
     def get_best_price(self, AZ_price_dict):
-        """Takes a dictionary of availablity zones to price and returns the best AZ and price."""
+        """Takes a dictionary of availablity zones to price and returns the lowest price with AZ."""
 
         best_price = min(AZ_price_dict.values())
+
         for AZ, price in AZ_price_dict.items():
             if price == best_price:
                 return AZ, price
 
+    def return_client(self):
+        """Give access to client, for builder."""
+        return self.client
 
-p1 = Pricer('ec2', 'us-east-1', 't2.micro')
-prices_response = p1.get_spot_prices()
-AZ_price_dict = p1.format_price_data(prices_response)
-print(p1.get_best_price(AZ_price_dict))
+if __name__ == "__main__":
+
+    p1 = Pricer('ec2', 'us-east-1', 't2.micro')
+    prices_response = p1.get_spot_prices()
+    AZ_price_dict = p1.format_price_data(prices_response)
+    print(p1.get_best_price(AZ_price_dict))
