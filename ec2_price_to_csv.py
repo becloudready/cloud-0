@@ -1,22 +1,11 @@
 import json
 import boto3
-import aws_credentials as aws_creds
+
 from pkg_resources import resource_filename
 import pprint
 from datetime import datetime
 import pandas as pd
 import datetime
-
-def test_credentials():
-    s3 = boto3.resource('s3', aws_access_key_id = aws_creds.access_key,
-                    aws_secret_access_key = aws_creds.secrete_key)
-
-    # create
-
-    for bucket in s3.buckets.all():
-        print(bucket.name)
-
-# test_credentials()
 
 
 # Search product filter
