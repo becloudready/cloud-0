@@ -1,11 +1,5 @@
 import boto3
 
-
-def test_found():
-    """Testing if main.py can import this module."""
-    print("found")
-
-
 class Pricer():
 
     # TODO: add ability to
