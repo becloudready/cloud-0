@@ -66,8 +66,9 @@ class Pricer():
         best_price = min(AZ_price_dict.values())
 
         for AZ, price in AZ_price_dict.items():
-            if price == best_price:
-                return AZ, price
+            if __name__ == '__main__':
+                if price == best_price:
+                    return AZ, price
 
     def return_client(self):
         """Give access to client, for builder."""
